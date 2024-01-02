@@ -1,5 +1,5 @@
 import { User } from "../database/index.js";
-
+import { Op } from "sequelize";
 const getAll = async () => {
     try {
         const users = await User.findAll(); // SELECT * FROM users; 
@@ -79,21 +79,29 @@ const deleteAll = async () => {
     }destroy
 }
 
-const login = async ({email, password}) => {
+
+
+//מימוש מקורי
+// const login = async ({userEmail, userPassword}) => {
+
+// כניסה באמצעות מייל או טלפון
+const login = async ({userEmail, userPhone, userPassword}) => {
     try {
         const user = await User.findOne({
             where: {
-                email,
-                password
+                [Op.or]: [{userEmail}, {userPhone}],
+                userPassword
             }
-        }); // SELECT * FROM users WHERE email = email AND password = password;
+        }); // SELECT * FROM users WHERE userEmail = email AND password = password OR userPhone = phone AND password = password;
         if (user) {
-            user.token = user.generateJWT();
+            user.userToken = user.generateJWT();
             await user.save();    
+            console.log(user);
             return user;
         }
         return null;
     } catch (error) {
+        console.log(error);
         throw new Error(error);
     }
 }
@@ -102,7 +110,7 @@ const register = async (newUser) => {
     try {
         const user = await User.create(newUser);
         if (user) {
-            user.token = user.generateJWT();
+            user.token = user.generateJWT(process.env.JWT_SECRET);
             await user.save();
             return user;
         }

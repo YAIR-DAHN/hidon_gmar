@@ -2,7 +2,8 @@
 import sequelize from "./db-mysql.js"; //mysqlDB
 
 import User from "./models/user-model.js";
-import TestsMg from "./models/tests-manger-model.js";
+import Test from "./models/tests-manger-model.js";
+import Question from "./models/QuestionModel.js";
 
 
 //connect to db and sync models
@@ -21,4 +22,4 @@ const syncModels = async () => {
     }
 }
 
-export { syncModels, User,TestsMg, sequelize };
+export { syncModels, User, Test, Question, sequelize };

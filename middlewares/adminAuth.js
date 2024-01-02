@@ -12,7 +12,9 @@ const auth = (req, res, next) => {
     try {
         token = token.replace('Bearer ', '')
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        // const decoded = jwt.verify(token)
         const { id } = decoded
+        console.log(`id = ${id}`);
         const user = User.findOne({ where: { id } })
         if (!user) {
             console.log('Invalid token');
@@ -22,8 +24,8 @@ const auth = (req, res, next) => {
         req.user = user
         req.token = token
     } catch (err) {
-        console.log('Invalid token');
-        throw new Error('Invalid token')
+        console.log(`Invalid token2 ${err}`);
+        throw new Error('Invalid token2')
     }
 
     
