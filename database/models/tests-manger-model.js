@@ -11,7 +11,8 @@ const Test = sequelize.define("Test", {
         unique: true
     },
     testesMgType: {
-        type: DataTypes.ENUM("a", "n"),
+        type: DataTypes.STRING,
+        // type: DataTypes.ENUM("a", "n"),
         allowNull: false
     },
     testesMgScroe: {

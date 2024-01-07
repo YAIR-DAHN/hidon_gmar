@@ -4,6 +4,7 @@ import sequelize from "./db-mysql.js"; //mysqlDB
 import User from "./models/user-model.js";
 import Test from "./models/tests-manger-model.js";
 import Question from "./models/QuestionModel.js";
+import Answers from "./models/answers-model.js";
 
 
 //connect to db and sync models
@@ -11,6 +12,7 @@ const syncModels = async () => {
     try {
         await sequelize.authenticate();
         console.log("Connection has been established successfully.");
+
         // בפקודה הבאה מאפס את הטבלה בכל ריצה מחודשת של השרת   
         // await sequelize.sync({ force: true });
 
@@ -22,4 +24,4 @@ const syncModels = async () => {
     }
 }
 
-export { syncModels, User, Test, Question, sequelize };
+export { syncModels, User, Test, Question, Answers, sequelize };

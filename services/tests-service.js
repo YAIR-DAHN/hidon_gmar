@@ -1,4 +1,4 @@
-import { Test, Question } from "../database/index.js";
+import { User, Test, Question, Answers } from "../database/index.js";
 import { Op } from "sequelize";
 
 const create = async (newTest) => {
@@ -8,6 +8,30 @@ const create = async (newTest) => {
             return Tests;
         }
         return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+const getAllTest = async () => {
+    try {
+        const Tests = await Test.findAll(); // חיבור מפתח זר לשם המשתמש
+        if (Tests.length > 0) {
+            return Tests;
+        }
+        return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+const TestUpdate = async (id, TestUpdated) => {
+    try {
+        const Tests = await Test.findByPk(id);
+        if (!Tests) {
+            return null;
+        }
+        Tests.set(TestUpdated);
+        await Tests.save();
+        return Tests;
     } catch (error) {
         throw new Error(error);
     }
@@ -33,7 +57,7 @@ const getAll = async () => {
         return null;
     } catch (error) {
         throw new Error(error);
-    }        
+    }
 }
 const getById = async (id) => {
     try {
@@ -46,8 +70,17 @@ const getById = async (id) => {
         throw new Error(error);
     }
 }
-// 
-// 
+const getByTest = async (id) => {
+    try {
+        const quset = await Question.findAll({ where: { test_Id: id } });
+        if (quset) {
+            return quset;
+        }
+        return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 const updateQuest = async (id, QuestUpdated) => {
     try {
         const quset = await getById(id);
@@ -61,6 +94,73 @@ const updateQuest = async (id, QuestUpdated) => {
         throw new Error(error);
     }
 }
+const addAnswer = async (answer) => {
+    try {
+        const Answerss = await Answers.bulkCreate(answer);
+        if (Answerss) {
+            return Answerss;
+        }
+        return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+const getAnswerById = async (id) => {
+    try {
+        const answer = await Answers.findAll({ where: { test_Id: id } });
+        if (answer) {
+            return answer;
+        }
+        return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+const getAllAnswer = async () => {
+    try {
+        const answer = await Answers.findAll({include: [{
+            model: User,
+            attributes: ['userFirstName', 'userLastName']
+        }, {
+            model: Test,
+            attributes: ['testesMgName']
+        },
+        {
+            model: Question,
+            attributes: ['question', 'correct_answer']
+        }
+        ]}); // חיבור מפתח זר לשם המשתמש ושם המבחן
+        if (answer) {
+            return answer;
+        }
+        return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+const getAnswerByUser = async (id) => {
+    try {
+        const answer = await Answers.findAll({
+            where: { user_Id_FK: id }, include: [{
+                model: User,
+                attributes: ['userFirstName', 'userLastName']
+            }, {
+                model: Test,
+                attributes: ['testesMgName']
+            },
+            {
+                model: Question,
+                attributes: ['question', 'correct_answer']
+            }
+            ]
+        });
+        if (answer) {
+            return answer;
+        }
+        return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
-
-export default { create, addQuest, getById, updateQuest, getAll };
+export default { create, getAllTest, TestUpdate, addQuest, getById, updateQuest, getAll, getByTest, addAnswer, getAnswerByUser, getAnswerById, getAllAnswer };

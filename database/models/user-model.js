@@ -6,13 +6,6 @@ import jwt from "jsonwebtoken";
 
 
 const User = sequelize.define("User", {
-    // Model attributes are defined here
-    // userId: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     primaryKey: true,
-    //     autoIncrement: true,
-    // },
     userFirstName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -37,6 +30,10 @@ const User = sequelize.define("User", {
     },
     userToken: {
         type: DataTypes.STRING
+        // allowNull defaults to true
+    },
+    userBirthDate: {
+        type: DataTypes.DATEONLY
         // allowNull defaults to true
     },
     userCity: {
@@ -75,11 +72,11 @@ const User = sequelize.define("User", {
         // allowNull defaults to true
     },
     createdAt: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
         // allowNull defaults to true
     },
     updatedAt: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
         // allowNull defaults to true
     }
 }, {
@@ -97,8 +94,9 @@ User.prototype.generateJWT = function () {
     const expirationDate = new Date(today);
     expirationDate.setDate(today.getDate() + 60);
     return jwt.sign({
-        email: this.email,
+        email: this.userEmail,
         id: this.id,
+        role: this.userRole,
         exp: parseInt(expirationDate.getTime() / 1000, 10),
     }, process.env.JWT_SECRET);
 }
@@ -107,6 +105,7 @@ User.prototype.toAuthJSON = function () {
     return {
         id: this.id,
         email: this.userEmail,
+        role: this.userRole,
         token: this.generateJWT(),
     };
 };

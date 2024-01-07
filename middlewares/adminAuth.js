@@ -12,17 +12,24 @@ const auth = (req, res, next) => {
     try {
         token = token.replace('Bearer ', '')
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        // const decoded = jwt.verify(token)
-        const { id } = decoded
-        console.log(`id = ${id}`);
+        const { id, role, email  } = decoded
+
+        console.log(`id = ${id}, role = ${role} , email = ${email}`);
         const user = User.findOne({ where: { id } })
         if (!user) {
             console.log('Invalid token');
             throw new Error('Invalid token')
             
         }
+
+        else if (role !== "admin" && role !== "editor" && role !== "מנהל" && role !== "עורך") {
+            console.log('user role not match');
+            throw new Error('user role not match')
+            
+        }
         req.user = user
         req.token = token
+        console.log(`user = ${user} , token = ${token}`);
     } catch (err) {
         console.log(`Invalid token2 ${err}`);
         throw new Error('Invalid token2')
