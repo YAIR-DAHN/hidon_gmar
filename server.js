@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-
+import path from "path";
 import UserRouter from "./routers/user-routes.js";
 import TestsRouter from "./routers/tests-routes.js";
 import { syncModels } from "./database/index.js";
@@ -21,8 +21,12 @@ app.use(cors());
 app.use("/users", new UserRouter().getRouter());
 app.use("/tests", new TestsRouter().getRouter());
 
+//static files
+app.use(express.static(path.join('frontEnd')));
+
+
 app.get("/", (req, res) => {
-    res.send("Hello World");
+    res.sendFile(path.join('frontEnd', 'index.html'));
     }
 );
 
