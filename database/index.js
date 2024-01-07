@@ -1,5 +1,5 @@
-// import sequelize from "./db-postgres.js"; //postgresDB
-import sequelize from "./db-mysql.js"; //mysqlDB
+import sequelize from "./db-postgres.js"; //postgresDB
+// import sequelize from "./db-mysql.js"; //mysqlDB
 
 import User from "./models/user-model.js";
 import Test from "./models/tests-manger-model.js";
