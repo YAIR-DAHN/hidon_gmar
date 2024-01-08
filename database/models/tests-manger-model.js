@@ -1,7 +1,5 @@
 import { sequelize } from "../index.js";
 import { DataTypes, literal } from "sequelize";
-import jwt from "jsonwebtoken";
-// import Question from "./QuestionModel.js";
 
 
 const Test = sequelize.define("Test", {
@@ -17,16 +15,16 @@ const Test = sequelize.define("Test", {
     },
     testesMgScroe: {
         type: DataTypes.INTEGER
-         // allowNull defaults to true
+        // allowNull defaults to true
     },
     testesMgTime: {
         type: DataTypes.STRING,
     },
-     testesMgDateStart: {
-        type: DataTypes.DATE
+    testesMgDateStart: {
+        type: DataTypes.DATEONLY
     },
     testesMgDateEnd: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
     },
     testesMgLevel: {
         type: DataTypes.INTEGER
@@ -42,8 +40,7 @@ const Test = sequelize.define("Test", {
         type: DataTypes.DATE
     }
 }, {
-    // Other model options go here
+
 });
 
-// Test.hasMany(Question, { foreignKey: 'test_id' });
 export default Test;

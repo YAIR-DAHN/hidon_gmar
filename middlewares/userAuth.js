@@ -7,7 +7,7 @@ const auth = (req, res, next) => {
     if (!token) {
         console.log('No token provided');
         throw new Error('No token provided')
-        
+
     }
     try {
         token = token.replace('Bearer ', '')
@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
         if (!user) {
             console.log('Invalid token');
             throw new Error('Invalid token')
-            
+
         }
         req.user = user
         req.token = token
@@ -26,7 +26,7 @@ const auth = (req, res, next) => {
         throw new Error('Invalid token')
     }
 
-    
+
     return next()
 }
 

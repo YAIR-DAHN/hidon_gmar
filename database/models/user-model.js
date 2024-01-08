@@ -24,7 +24,7 @@ const User = sequelize.define("User", {
         allowNull: false,
         unique: true
     },
-     userPassword: {
+    userPassword: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -79,8 +79,6 @@ const User = sequelize.define("User", {
         type: DataTypes.DATEONLY
         // allowNull defaults to true
     }
-}, {
-    // Other model options go here
 });
 
 User.toJSON = function () {

@@ -47,9 +47,9 @@ export default class TestController {
             res.status(500).json({ msg: error.message });
         }
     }
-    static async getAll(req, res) {
+    static async getAllQuest(req, res) {
         try {
-            const Quests = await testsService.getAll();
+            const Quests = await testsService.getAllQuest();
             if (!Quests) {
                 return res.status(404).json({ msg: "Quests not found" });
             }
@@ -94,7 +94,7 @@ export default class TestController {
 
     //קבלת תשובות מהמשתמשים
     static async addAnswer(req, res) {
-        try {  
+        try {
             const answer = await testsService.addAnswer(req.body);
             if (!answer) {
                 return res.status(404).json({ msg: "answer not found" });

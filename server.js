@@ -3,8 +3,9 @@ import cors from "cors";
 import path from "path";
 import UserRouter from "./routers/user-routes.js";
 import TestsRouter from "./routers/tests-routes.js";
+import CounterRouter from "./routers/counter-routers.js"; 
 import { syncModels } from "./database/index.js";
-
+import counterLogin from './middlewares/counterLogin.js'; // קונטרולר של הסטטיסטיקה
 const app = express();
 
 //connect to db and sync models
@@ -18,20 +19,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //routes
-app.use("/users", new UserRouter().getRouter());
-app.use("/tests", new TestsRouter().getRouter());
+app.use("/users",counterLogin, new UserRouter().getRouter());
+app.use("/tests",counterLogin, new TestsRouter().getRouter());
+app.use("/counter", new CounterRouter().getRouter()); // קונטרולר של הסטטיסטיקה
 
 //static files
 app.use(express.static(path.join('frontEnd')));
 
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join('frontEnd', 'index.html'));
-    }
-);
+// app.get("/", counterLogin, (req, res) => {
+//     res.sendFile(path.join('frontEnd', 'index.html'));
+//     }
+// );
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
+  
     }
 );
 

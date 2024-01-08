@@ -1,7 +1,6 @@
 import { sequelize } from "../index.js";
 import { DataTypes, literal } from "sequelize";
 import Test from "./tests-manger-model.js";
-// import { UUIDV4 } from "uuid";
 
 
 const Question = sequelize.define("Question", {
@@ -27,15 +26,12 @@ const Question = sequelize.define("Question", {
         unique: true
     },
     createdAt: {
-        type: DataTypes.DATE
-        // allowNull defaults to true
+        type: DataTypes.DATEONLY
     },
     updatedAt: {
-        type: DataTypes.DATE
-        // allowNull defaults to true
+        type: DataTypes.DATEONLY
     }
 }, {
-    // Other model options go here
 });
 
 Question.belongsTo(Test, { foreignKey: 'test_id' });

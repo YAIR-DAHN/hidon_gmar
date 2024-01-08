@@ -1,5 +1,4 @@
 import { User, Test, Question, Answers } from "../database/index.js";
-import { Op } from "sequelize";
 
 const create = async (newTest) => {
     try {
@@ -14,7 +13,7 @@ const create = async (newTest) => {
 }
 const getAllTest = async () => {
     try {
-        const Tests = await Test.findAll(); // חיבור מפתח זר לשם המשתמש
+        const Tests = await Test.findAll();
         if (Tests.length > 0) {
             return Tests;
         }
@@ -48,9 +47,14 @@ const addQuest = async (newQuest) => {
         throw new Error(error);
     }
 }
-const getAll = async () => {
+const getAllQuest = async () => {
     try {
-        const Quest = await Question.findAll(); // SELECT * FROM Quest; 
+        const Quest = await Question.findAll({
+            include: [{
+                model: Test,
+                attributes: ['testesMgName']
+            },]
+        });
         if (Quest.length > 0) {
             return Quest;
         }
@@ -118,18 +122,20 @@ const getAnswerById = async (id) => {
 }
 const getAllAnswer = async () => {
     try {
-        const answer = await Answers.findAll({include: [{
-            model: User,
-            attributes: ['userFirstName', 'userLastName']
-        }, {
-            model: Test,
-            attributes: ['testesMgName']
-        },
-        {
-            model: Question,
-            attributes: ['question', 'correct_answer']
-        }
-        ]}); // חיבור מפתח זר לשם המשתמש ושם המבחן
+        const answer = await Answers.findAll({
+            include: [{
+                model: User,
+                attributes: ['userFirstName', 'userLastName']
+            }, {
+                model: Test,
+                attributes: ['testesMgName']
+            },
+            {
+                model: Question,
+                attributes: ['question', 'correct_answer']
+            }
+            ]
+        }); // חיבור מפתח זר לשם המשתמש ושם המבחן
         if (answer) {
             return answer;
         }
@@ -163,4 +169,4 @@ const getAnswerByUser = async (id) => {
     }
 }
 
-export default { create, getAllTest, TestUpdate, addQuest, getById, updateQuest, getAll, getByTest, addAnswer, getAnswerByUser, getAnswerById, getAllAnswer };
+export default { create, getAllTest, TestUpdate, addQuest, getById, updateQuest, getAllQuest, getByTest, addAnswer, getAnswerByUser, getAnswerById, getAllAnswer };

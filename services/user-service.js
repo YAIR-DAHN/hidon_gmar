@@ -9,7 +9,7 @@ const getAll = async () => {
         return null;
     } catch (error) {
         throw new Error(error);
-    }        
+    }
 }
 
 const getById = async (id) => {
@@ -76,26 +76,22 @@ const deleteAll = async () => {
         return null;
     } catch (error) {
         throw new Error(error);
-    }destroy
+    } destroy
 }
 
 
-
-//מימוש מקורי
-// const login = async ({userEmail, userPassword}) => {
-
 // כניסה באמצעות מייל או טלפון
-const login = async ({userEmail, userPhone, userPassword}) => {
+const login = async ({ userEmail, userPhone, userPassword }) => {
     try {
         const user = await User.findOne({
             where: {
-                [Op.or]: [{userEmail}, {userPhone}],
+                [Op.or]: [{ userEmail }, { userPhone }],
                 userPassword
             }
         }); // SELECT * FROM users WHERE userEmail = email AND password = password OR userPhone = phone AND password = password;
         if (user) {
             user.userToken = user.generateJWT();
-            await user.save();    
+            await user.save();
             console.log(user);
             return user;
         }
