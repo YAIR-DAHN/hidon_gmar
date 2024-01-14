@@ -6,6 +6,7 @@ import Test from "./models/tests-manger-model.js";
 import Question from "./models/QuestionModel.js";
 import Answers from "./models/answers-model.js";
 import LoginCounter from "./models/login-counter.js";
+import PasswordRecovery from "./models/password-recovery-model.js"
 
 
 //connect to db and sync models
@@ -24,4 +25,4 @@ const syncModels = async () => {
     }
 }
 
-export { syncModels, User, Test, Question, Answers, LoginCounter, sequelize };
+export { syncModels, User, Test, Question, Answers, LoginCounter, PasswordRecovery, sequelize };

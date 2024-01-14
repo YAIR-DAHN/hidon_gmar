@@ -169,4 +169,5 @@ const getAnswerByUser = async (id) => {
     }
 }
 
+
 export default { create, getAllTest, TestUpdate, addQuest, getById, updateQuest, getAllQuest, getByTest, addAnswer, getAnswerByUser, getAnswerById, getAllAnswer };
